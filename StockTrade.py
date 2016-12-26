@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-'''Automatically buy and sell stocks on neopets.com.'''
+'''
+Automatically buy and sell stocks.
+
+Part of naps (neopets automation program suite)
+'''
+
 
 import bs4
 import re

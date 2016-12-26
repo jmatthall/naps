@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-'''Auto trainer for the ninja training school.'''
+'''
+Auto trainer for the ninja training school.
 
-import schedule
+Part of naps (neopets automation program suite)
+'''
+
+
 import re
-import time
-import random
 from NeoSession import NeoSession
+from ShopWizard import ShowWizard
 
 
 class NinjaTrain(NeoSession):
@@ -16,25 +19,15 @@ class NinjaTrain(NeoSession):
         self.check_status_run()
         #self.check_buy_codestone()
 
-    def check_buy_codestone(self):
+    def check_inventory(self):
         url = 'http://www.neopets.com/island/fight_training.phtml?type=status'
         resp = self.session_get(url)
-        codestone = re.search(r'(.+ codestone)', resp.text)
+        codestone = re.search(r'(.+ codestone)', resp.text).group(1)
         url = 'http://www.neopets.com/inventory.phtml'
         resp = self.session_get(url)
-        if codestone.group() not in resp.text:
-            url = 'http://www.neopets.com/market.phtml?type=wizard'
-            resp = self.session_get(url)
-            url = 'http://www.neopets.com/market.phtml'
-            resp = self.session_post(url, data={
-                'type': 'process_wizard', 'feedset': "0", 'shopwizard': codestone,
-                'criteria': 'exact', 'min_price': "0", 'max_price': "99999"})
-            link = re.search(r'<a href="(/browseshop.phtml?owner=[\w*]&buy_obj_info_id=[\d*]&buy_cost_neopoints=[\d*])">')
-            url = 'http://neopets.com{}'.format(link.group())
-            resp = self.session_get(url)
-            link = re.search(r'<A href="(buy_item.phtml?lower=0&owner=[\w*]&obj_info_id=[\d]&g=1&xhs=\w*&old_price=26000&feat=\d*,\d*,1&_ref_ck=\w*)" onClick=')
-            url = 'http://neopets.com{}'.format(link.group())
-            resp = self.session_get(url)
+        if codestone not in resp.text:
+            ShowWizard.buy_item(codestone)
+
 
     def determine_course(self):
         url = 'http://www.neopets.com/island/fight_training.phtml?type=status'
@@ -103,8 +96,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    schedule.every(7).hours.do(main)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(random.randint(1000, 4000))
