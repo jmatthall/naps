@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-'''Neopets login.'''
+'''
+Mimics a neopets websession, handles cookies, headers, updating referer
+header and human-like pauses.
+
+Part of naps (neopets automation program suite)
+'''
+
 
 import requests
 import pickle
