@@ -1,0 +1,8 @@
+[USER-SETTINGS]
+USERNAME = username
+PASSWORD = password
+PET-NAME = pet
+
+[PROGRAM-SETTINGS]
+COOKIE_JAR = neopets.cookies
+HEADERS = neopets.headers
