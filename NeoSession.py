@@ -31,7 +31,7 @@ class NeoSession:
     def session_get(self, url):
         response =  self.session.get(url)
         self.session.headers.update({'Referer': url})
-		return response
+	return response
 
     def session_post(self, url, data=None):
         if data is None:
@@ -39,7 +39,7 @@ class NeoSession:
         else:
             html = self.session.post(url, data)
         self.session.headers.update({'Referer': url})
-		return html
+	return html
 
     def update_session_cookies(self):
         if os.path.isfile(self.jar):
@@ -69,18 +69,18 @@ class NeoSession:
 
         url = 'http://www.neopets.com/login'
         resp = self.session_get(url)
-		self.session.headers.update({'Referer': url})
-		try:
-			resp.raise_for_status()
-		except requests.exceptions.HTTPError:
-			print('Could not connect to neopets.com')
-			sys.exit(1)
+	self.session.headers.update({'Referer': url})
+	try:
+	    resp.raise_for_status()
+	except requests.exceptions.HTTPError:
+	    print('Could not connect to neopets.com')
+	    sys.exit(1)
         if self.check_login(resp) is not True:
-        	url = 'http://www.neopets.com/login.phtml'
-        	self.session_post(url, self.login_data)
-        	print('Login successful.')
+            url = 'http://www.neopets.com/login.phtml'
+            self.session_post(url, self.login_data)
+            print('Login successful.')
 
-		return
+	return
 #  you can deal with this
 
 #if os.path.isfile(self.jar) is not True:
