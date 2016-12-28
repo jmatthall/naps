@@ -35,11 +35,11 @@ class NeoSession:
 
     def session_post(self, url, data=None):
         if data is None:
-            html = self.session.post(url)
+            response = self.session.post(url)
         else:
-            html = self.session.post(url, data)
+            response = self.session.post(url, data)
         self.session.headers.update({'Referer': url})
-	return html
+	return response
 
     def update_session_cookies(self):
         if os.path.isfile(self.jar):
